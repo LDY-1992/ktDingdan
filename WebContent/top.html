@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="KingcomTek-lidongyang">
+<!-- Favicons -->
+<link rel="icon" href="picture/ico.ico">
+<link rel="shortcut icon" href="picture/ico.ico">
+<link rel="bookmark" href="picture/ico.ico">
+<link rel="apple-touch-icon-precomposed" href="picture/ico.ico">
+
+<title>金讯科技订单管理系统</title>
+
+<!-- Bootstrap core CSS -->
+<link href="css/bootstrap.min.css" rel="stylesheet">
+<link href="css/buttons.css" rel="stylesheet">
+<link href="css/dataTables.bootstrap.min.css" rel="stylesheet">
+<link href="css/dataTables.tableTools.min.css" rel="stylesheet">
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+      <script src="js/respond.min.js"></script>
+    <![endif]-->
+
+<!-- Custom styles for this template -->
+<link href="css/dashboard.css" rel="stylesheet">
+<link href="css/dingDan.css" rel="stylesheet">
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-fixed-top" role="navigation"
+		id="top_nav">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">订单管理系统（管理员）</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li><button data-toggle="modal" data-target="#add_member"
+							class="button button-border button-rounded button-primary button-small top_button">+添加成员</button></li>
+					<li><button data-toggle="modal" data-target="#add_custom"
+							class="button button-border button-rounded button-primary button-small top_button">+添加客户</button></li>
+					<li><button data-toggle="modal" data-target="#add_product"
+							class="button button-border button-rounded button-primary button-small top_button">+添加产品</button></li>
+					<li><a href="Login.html">退出登录</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3 col-md-1 sidebar">
+				<ul class="nav nav-sidebar">
+					<li class="active"><a href="#s11" data-toggle="tab">生成订单</a></li>
+					<li><a href="#s12" data-toggle="tab" id="a_member">人员管理</a></li>
+
+					<li><a href="#s13" data-toggle="tab" id="a_product">产品管理</a></li>
+
+					<li><a href="#s14" data-toggle="tab" id="a_custom">客户管理</a></li>
+
+					<!-- <li><a href="#s15" data-toggle="tab">分类管理</a></li> -->
+
+					<li><a href="#s16" data-toggle="tab" id="a_dingdan">订单管理</a></li>
+					<li><a href="#s17" data-toggle="tab" id="a_duizhang">对账管理</a></li>
+				</ul>
+			</div>
+			<div class="col-sm-9 col-sm-offset-3 col-md-11 col-md-offset-1 main">
+				<div class="tab-content">
+					<div class="tab-pane fade in active" id="s11">
+						<div id="top_dingdan" class="col-md-12">
+							<p class="top_title">订单详细</p>
+							<div class="top_line"></div>
+							<br>
+							<div class="row">
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="">寄件单位名称</label> <input
+											id="input_dingdan_send_cor" class="form-control"
+											placeholder="寄件单位名称" value="金讯科技（上海）有限公司">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="">寄件人</label> <input
+											id="input_dingdan_send_person" class="form-control"
+											placeholder="寄件人" value="宋辉">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="">寄件人电话</label> <input
+											id="input_dingdan_send_phone" class="form-control"
+											placeholder="寄件人电话" value="13918134855">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label for="">收件单位名称</label> <input
+											id="input_dingdan_custom_name" class="form-control"
+											placeholder="点击选择收件单位">
+									</div>
+								</div>
+								<div class="col-md-9">
+									<div class="form-group">
+										<label for="">收件单位详细地址</label> <input class="form-control"
+											disabled="true" id="input_dingdan_custom_addr"
+											placeholder="收件单位详细地址">
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<label for="">收件人-电话</label> <select
+											id="select_dingdan_contacts" class="form-control">
+										</select>
+									</div>
+								</div>
+
+								<div class="col-md-3" style="display: none">
+									<div class="form-group">
+										<label for="">客户ID</label> <input disabled="true"
+											id="input_dingdan_custom_id" class="form-control">
+									</div>
+								</div>
+
+								<div class="col-md-12">
+									<table id="table_add_dingdan_product"
+										class="table table-striped table-bordered" cellspacing="0"
+										width="100%">
+										<thead>
+											<tr>
+												<th>产品名称（销售型号）</th>
+												<th>产品名称（内部型号）</th>
+												<th>产品数量</th>
+												<th>产品单价</th>
+												<th>产品版本号</th>
+												<th><button type="button" class="btn btn-primary"
+														id="btn_add_dingdan_product">+添加</button></th>
+											</tr>
+										</thead>
+										<tbody id="tbody_add_dingdan_product">
+											<tr>
+												<th><input class="form-control"
+													id="input_dingdan_sale_module" placeholder="产品名称（销售型号）"></th>
+												<th><input class="form-control"
+													placeholder="产品名称（内部型号）"></th>
+												<th><input class="form-control"
+													id="input_dingdan_sale_count" placeholder="产品数量"></th>
+												<th><input class="form-control"
+													id="input_dingdan_sale_price" placeholder="产品单价"></th>
+												<th><input class="form-control"
+													id="input_dingdan_product_version" placeholder="产品版本号"></th>
+												<th><button class="btn btn-danger">删除</button></th>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label for="">付款状况</label> <select id="select_dingdan_pay"
+											class="form-control">
+											<option>宋辉挂账不开票</option>
+											<option>宋辉挂账开票</option>
+											<option>客户私账漆伟辉</option>
+											<option>客户公账开票</option>
+											<option>代发有人科技月结</option>
+											<option>客户私账徐总</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label for="">总金额</label> <input id="input_dingdan_all_money"
+											class="form-control" placeholder="总金额">
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label for="">运输方式</label> <select id="select_dingdan_traffic"
+											class="form-control">
+											<option>快递</option>
+											<option>物流</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="form-group">
+										<label for="">发货日期</label> <input type="date"
+											id="input_dingdan_date" class="form-control"
+											placeholder="发货日期">
+									</div>
+								</div>
+								<div class="col-md-12">
+									<div class="form-group">
+										<label for="">其他信息</label> <input id="input_dingdan_mes"
+											class="form-control" placeholder="填写文施订单号、快递单号等其它信息">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group" id="div_dingdan_tip">
+										<label for="">注意事项</label> <br> <input type="checkbox"
+											checked="checked" value="发货提供快递单号，无快递单号，发货流程未闭环">
+										发货提供快递单号，无快递单号，发货流程未闭环<br> <input type="checkbox"
+											checked="checked" value="如发现金讯货号与文施内部代码不一致，请互相提醒检查">
+										如发现金讯货号与文施内部代码不一致，请互相提醒检查<br> <input type="checkbox"
+											checked="checked" value="随货带发票，请到财务处拿"> 随货带发票，请到财务处拿<br>
+										<input type="checkbox" value="软件版本请于研发内部沟通">
+										软件版本请于研发内部沟通<br> <input type="checkbox"
+											value="G32默认带小辣椒天线"> G32默认带小辣椒天线
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="">添加注意事项</label> <input id="input_add_tip"
+											class="form-control" placeholder="填写注意事项，注意不要带'|'字符"><br>
+										<button class="btn btn-primary" id="btn_add_tip">+添加注意事项</button>
+									</div>
+								</div>
+							</div>
+							<p class="top_title">负责人</p>
+							<div class="top_line"></div>
+							<br>
+							<div class="row">
+								<div class="col-md-2">
+									<button type="button" class="btn btn-primary"
+										id="btn_dingdan_add_member" data-toggle="modal"
+										data-target="#modal_select_member">+添加负责人</button>
+								</div>
+								<div class="col-md-2">
+									<div class="checkbox">
+										<label> <input type="checkbox" id="chaosong"
+											value="YES"> 抄送给默认人员
+										</label>
+									</div>
+								</div>
+
+								<div id="div_dingdan_add_member"></div>
+
+							</div>
+							<br>
+							<div class="top_line"></div>
+							<p class="top_title">开票人</p>
+							<div class="top_line"></div>
+							<br>
+							<div class="row">
+								<div class="col-md-2">
+									<button type="button" class="btn btn-primary"
+										id="btn_dingdan_add_tax" data-toggle="modal"
+										data-target="#modal_select_tax">+添加开票人</button>
+								</div>
+								<div id="div_dingdan_add_tax"></div>
+
+							</div>
+							<br>
+							<div class="top_line"></div>
+							<br>
+							<div class="row">
+								<div class="col-md-2 col-md-offset-5">
+									<button class="btn btn-success" id="btn_add_dingdan">生成订单</button>
+								</div>
+								<div class="col-md-5">
+									<p style="color: red; font-size: 20px;" id="p_dingdan_warnmes"></p>
+								</div>
+							</div>
+							<hr>
+						</div>
+
+						<div id="" class="col-md-12">
+							<br>
+							<p class="top_title" id="p_mes_lastDingdan"></p>
+							<div class="top_line"></div>
+							<br>
+							<table id="table_last_dingdan"
+								class="table table-striped table-bordered" cellspacing="0"
+								width="100%">
+								<thead>
+									<tr>
+										<th>订单号</th>
+										<th>发货日期</th>
+										<th>收件人</th>
+										<th>产品信息</th>
+										<th>详细信息</th>
+									</tr>
+								</thead>
+								<tbody id="tbody_last_dingdan">
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<div class="tab-pane fade" id="s12">
+						<p class="top_title">人员管理表</p>
+						<div class="top_line"></div>
+						<br>
+						<table id="member" class="table table-striped table-bordered"
+							cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>姓名</th>
+									<th>用户名</th>
+									<th>密码</th>
+									<th>邮箱账户</th>
+									<th>邮箱密码</th>
+									<th>权限</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+						</table>
+						<p class="top_title">默认人员邮箱管理表</p>
+						<div class="top_line"></div>
+						<br>
+						<table id="default_member"
+							class="table table-striped table-bordered" cellspacing="0"
+							width="100%">
+							<thead>
+								<tr>
+									<th>姓名</th>
+									<th>邮箱账户</th>
+									<th><button type="button"
+											class="btn btn-primary top_handle" data-toggle="modal"
+											data-target="#add_default_member">+添加默认人员</button></th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<div class="tab-pane fade" id="s13">
+						<p class="top_title">产品管理表</p>
+						<div class="top_line"></div>
+						<br>
+						<table id="product" class="table table-striped table-bordered"
+							cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>产品ID</th>
+									<th>销售型号</th>
+									<th>内部型号</th>
+									<th>产品库存</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<div class="tab-pane fade" id="s14">
+						<p class="top_title">客户管理表</p>
+						<div class="top_line"></div>
+						<br>
+						<table id="custom" class="table table-striped table-bordered"
+							cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>名称</th>
+									<th>地址</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+						</table>
+						<button class="btn btn-default" id="btn_create_custom_list">点击生成客户Excel表格</button>
+						<a type="button" class="btn btn-default" id="btn_download_custom_list" disabled="true">点击下载客户Excel表格</a>
+					</div>
+					<div class="tab-pane fade" id="s15">
+						<h2 class="sub-header">S15 title</h2>
+					</div>
+					<div class="tab-pane fade" id="s16">
+						<p class="top_title">订单管理表</p>
+						<div class="top_line"></div>
+						<br>
+						<div class="row">
+							<div class="col-md-2">
+								<div class="form-group">
+									<label for="">开始日期</label> <input type="date"
+										id="input_dingdan_date1" class="form-control" placeholder="">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="form-group">
+									<label for="">结束日期</label> <input type="date"
+										id="input_dingdan_date2" class="form-control" placeholder="">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="form-group">
+									<button class="btn btn-success group_btn"
+										id="btn_query_dingdan">查询</button>
+								</div>
+							</div>
+						</div>
+						<table id="dingdan" class="table table-striped table-bordered"
+							cellspacing="0" width="100%">
+							<thead>
+								<tr>
+									<th>发货日期</th>
+									<th>客户名称</th>
+									<th>订单号</th>
+									<th>产品清单</th>
+									<th>总金额</th>
+									<th>付款状态</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+						</table>
+						<p id="p_dingdan_warn"></p>
+					</div>
+					<div class="tab-pane fade" id="s17">
+						<p class="top_title">对账管理表</p>
+						<div class="top_line"></div>
+						<br>
+						<div class="row">
+							<div class="col-md-2">
+								<div class="form-group">
+									<label for="">开始日期</label> <input type="date"
+										id="input_duizhang_date1" class="form-control" placeholder="">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="form-group">
+									<label for="">结束日期</label> <input type="date"
+										id="input_duizhang_date2" class="form-control" placeholder="">
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="form-group">
+									<button class="btn btn-success group_btn"
+										id="btn_query_duizhang">查询</button>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="form-group">
+									<a type="button" class="btn btn-success group_btn"
+										id="a_get_excel" disabled="true">点击获取Excel</a>
+								</div>
+							</div>
+
+						</div>
+
+						<ul id="ul_duizhang_tab" class="nav nav-tabs" role="tablist">
+							<li role="presentation" class="active"><a
+								href="#div_duizhang_all_tabpanel" id="home-tab" role="tab"
+								data-toggle="tab" aria-controls="div_duizhang_all_tabpanel"
+								aria-expanded="true">全部订单</a></li>
+							<li role="presentation" class="dropdown"><a href="#"
+								id="myTabDrop1" class="dropdown-toggle" data-toggle="dropdown"
+								aria-controls="myTabDrop1-contents">分类订单 <span class="caret"></span></a>
+								<ul class="dropdown-menu" aria-labelledby="myTabDrop1"
+									id="myTabDrop1-contents">
+									<li><a href="#div_duizhang_sheet1_tabpanel" role="tab"
+										id="dropdown1-tab" data-toggle="tab" aria-controls="dropdown1">宋辉挂账不开票</a></li>
+									<li><a href="#div_duizhang_sheet2_tabpanel" role="tab"
+										id="dropdown2-tab" data-toggle="tab" aria-controls="dropdown2">宋辉挂账开票</a></li>
+									<li><a href="#div_duizhang_sheet3_tabpanel" role="tab"
+										id="dropdown1-tab" data-toggle="tab" aria-controls="dropdown1">客户私账漆伟辉</a></li>
+									<li><a href="#div_duizhang_sheet4_tabpanel" role="tab"
+										id="dropdown2-tab" data-toggle="tab" aria-controls="dropdown2">客户公账开票</a></li>
+									<li><a href="#div_duizhang_sheet5_tabpanel" role="tab"
+										id="dropdown2-tab" data-toggle="tab" aria-controls="dropdown2">代发有人科技月结</a></li>
+									<li><a href="#div_duizhang_sheet6_tabpanel" role="tab"
+										id="dropdown2-tab" data-toggle="tab" aria-controls="dropdown2">客户私账徐总</a></li>
+								</ul></li>
+						</ul>
+
+						<div id="div_duizhang_tabcontent" class="tab-content">
+							<div role="tabpanel" class="tab-pane fade in active"
+								id="div_duizhang_all_tabpanel" aria-labelledby="home-tab">
+								<h4>全部订单表</h4>
+								<table id="table_duizhang"
+									class="table table-striped table-bordered" cellspacing="0"
+									width="100%">
+									<thead>
+										<tr>
+											<th>客户名称</th>
+											<th>发货日期</th>
+											<th>产品清单</th>
+											<th>总金额</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+							<div role="tabpanel" class="tab-pane fade"
+								id="div_duizhang_sheet1_tabpanel" aria-labelledby="home-tab">
+								<h4>【宋辉挂账不开票】订单表</h4>
+								<table id="table_duizhang_sheet1"
+									class="table table-striped table-bordered" cellspacing="0"
+									width="100%">
+									<thead>
+										<tr>
+											<th>客户名称</th>
+											<th>发货日期</th>
+											<th>产品清单</th>
+											<th>总金额</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+							<div role="tabpanel" class="tab-pane fade"
+								id="div_duizhang_sheet2_tabpanel" aria-labelledby="home-tab">
+								<h4>【宋辉挂账开票】订单表</h4>
+								<table id="table_duizhang_sheet2"
+									class="table table-striped table-bordered" cellspacing="0"
+									width="100%">
+									<thead>
+										<tr>
+											<th>客户名称</th>
+											<th>发货日期</th>
+											<th>产品清单</th>
+											<th>总金额</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+							<div role="tabpanel" class="tab-pane fade"
+								id="div_duizhang_sheet3_tabpanel" aria-labelledby="home-tab">
+								<h4>【客户私账漆伟辉】订单表</h4>
+								<table id="table_duizhang_sheet3"
+									class="table table-striped table-bordered" cellspacing="0"
+									width="100%">
+									<thead>
+										<tr>
+											<th>客户名称</th>
+											<th>发货日期</th>
+											<th>产品清单</th>
+											<th>总金额</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+							<div role="tabpanel" class="tab-pane fade"
+								id="div_duizhang_sheet4_tabpanel" aria-labelledby="home-tab">
+								<h4>【客户公账开票】订单表</h4>
+								<table id="table_duizhang_sheet4"
+									class="table table-striped table-bordered" cellspacing="0"
+									width="100%">
+									<thead>
+										<tr>
+											<th>客户名称</th>
+											<th>发货日期</th>
+											<th>产品清单</th>
+											<th>总金额</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+							<div role="tabpanel" class="tab-pane fade"
+								id="div_duizhang_sheet5_tabpanel" aria-labelledby="home-tab">
+								<h4>【代发有人科技月结】订单表</h4>
+								<table id="table_duizhang_sheet5"
+									class="table table-striped table-bordered" cellspacing="0"
+									width="100%">
+									<thead>
+										<tr>
+											<th>客户名称</th>
+											<th>发货日期</th>
+											<th>产品清单</th>
+											<th>总金额</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+							<div role="tabpanel" class="tab-pane fade"
+								id="div_duizhang_sheet6_tabpanel" aria-labelledby="home-tab">
+								<h4>【客户私帐徐总】订单表</h4>
+								<table id="table_duizhang_sheet6"
+									class="table table-striped table-bordered" cellspacing="0"
+									width="100%">
+									<thead>
+										<tr>
+											<th>客户名称</th>
+											<th>发货日期</th>
+											<th>产品清单</th>
+											<th>总金额</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+
+						<p id="p_duizhang_warn"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 确认订单模态窗口 -->
+	<!-- Modal -->
+	<div class="modal fade bs-example-modal-lg" id="modal_confirm_dingdan"
+		tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">邮件订单信息</h4>
+				</div>
+				<div class="modal-body" id="email_content">
+					<div style="text-align: center; font-size: 18px;">产品发货信息</div>
+					<br>
+					<table style="width: 100%" border="1">
+						<tr>
+							<td style="width: 25%"><p
+									style="font-size: 18px; margin-bottom: 0px;">寄件单位名称</td>
+							<td style="width: 75%"><p id="p_confirm_send_cor"
+									style="font-size: 18px; color: blue; margin-bottom: 0px;"></td>
+						</tr>
+						<tr>
+							<td style="width: 25%"><p
+									style="font-size: 18px; margin-bottom: 0px;">寄件人</td>
+							<td style="width: 75%"><p id="p_confirm_send_person"
+									style="font-size: 18px; color: blue; margin-bottom: 0px;"></td>
+						</tr>
+						<tr>
+							<td style="width: 25%"><p
+									style="font-size: 18px; margin-bottom: 0px;">寄件人电话</td>
+							<td style="width: 75%"><p id="p_confirm_send_phone"
+									style="font-size: 18px; color: blue; margin-bottom: 0px;"></td>
+						</tr>
+						<tr>
+							<td style="width: 25%"><p
+									style="font-size: 18px; margin-bottom: 0px;">收件单位名称</td>
+							<td style="width: 75%"><p id="p_confirm_custom_cor"
+									style="font-size: 18px; color: blue; margin-bottom: 0px;"></td>
+						</tr>
+						<tr>
+							<td style="width: 25%"><p
+									style="font-size: 18px; margin-bottom: 0px;">收件单位详细地址</td>
+							<td style="width: 75%"><p id="p_confirm_custom_addr"
+									style="font-size: 18px; color: blue; margin-bottom: 0px;"></td>
+						</tr>
+						<tr>
+							<td style="width: 25%"><p
+									style="font-size: 18px; margin-bottom: 0px;">收件人</td>
+							<td style="width: 75%"><p id="p_confirm_custom_contacts"
+									style="font-size: 18px; color: blue; margin-bottom: 0px;"></td>
+						</tr>
+					</table>
+					<br>
+					<table style="width: 90%" border="1" id="table_confirm_product">
+						<tr>
+							<th style="width: 20%">产品名称（销售型号）</th>
+							<th style="width: 20%">产品名称（内部型号）</th>
+							<th style="width: 20%">数量（套）</th>
+							<th style="width: 20%">产品单价</th>
+							<th style="width: 20%">版本号</th>
+						</tr>
+						<tbody id="tbody_confirm_product">
+						</tbody>
+					</table>
+					<br>
+					<table style="width: 100%" border="1">
+						<tr>
+							<td style="width: 25%"><p
+									style="font-size: 18px; margin-bottom: 0px;">付款状况</td>
+							<td style="width: 75%"><p id="p_confirm_pay"
+									style="font-size: 18px; color: blue; margin-bottom: 0px;"></td>
+						</tr>
+						<tr>
+							<td style="width: 25%"><p
+									style="font-size: 18px; margin-bottom: 0px;">总金额</td>
+							<td style="width: 75%"><p id="p_confirm_all_money"
+									style="font-size: 18px; color: blue; margin-bottom: 0px;"></td>
+						</tr>
+						<tr>
+							<td style="width: 25%"><p
+									style="font-size: 18px; margin-bottom: 0px;">运输方式（快递/物流）</td>
+							<td style="width: 75%"><p id="p_confirm_traffic"
+									style="font-size: 18px; color: blue; margin-bottom: 0px;"></td>
+						</tr>
+						<tr>
+							<td style="width: 25%"><p
+									style="font-size: 18px; margin-bottom: 0px;">发货日期</td>
+							<td style="width: 75%"><p id="p_confirm_date"
+									style="font-size: 18px; color: blue; margin-bottom: 0px;"></td>
+						</tr>
+						<tr>
+							<td style="width: 25%"><p
+									style="font-size: 18px; margin-bottom: 0px;">注意事项</td>
+							<td style="width: 75%" id="td_confirm_tip"></td>
+						</tr>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<p id="p_confirm_dingdan_warnmes"></p>
+					<button class="btn btn-success" id="btn_confirm_dingdan_submit">提交订单</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 订单详细信息模态窗口 -->
+	<!-- Modal -->
+	<div class="modal fade bs-example-modal-lg" id="modal_dingdan_mes"
+		tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">订单详细信息</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="">订单号:</label>
+								<p class="modal_p_dingdan_mes text-primary" id="p_dingdan_id"></p>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="">寄件单位名称:</label>
+								<p class="modal_p_dingdan_mes text-primary"
+									id="p_dingdan_send_cor"></p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="">寄件人:</label>
+								<p class="modal_p_dingdan_mes text-primary"
+									id="p_dingdan_send_person"></p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="">寄件人电话:</label>
+								<p class="modal_p_dingdan_mes text-primary"
+									id="p_dingdan_send_phone"></p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="">收件单位名称:</label>
+								<p class="modal_p_dingdan_mes text-primary"
+									id="p_dingdan_custom_cor"></p>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="">收件人-电话:</label>
+								<p class="modal_p_dingdan_mes text-primary"
+									id="p_dingdan_custom_contacts"></p>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="">收件单位详细地址:</label>
+								<p class="modal_p_dingdan_mes text-primary"
+									id="p_dingdan_custom_addr"></p>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<table id="table_modal_dingdan_products"
+								class="table table-striped table-bordered" cellspacing="0"
+								width="100%">
+								<thead>
+									<tr>
+										<th>产品名称（销售型号）</th>
+										<th>产品名称（内部型号）</th>
+										<th>产品数量</th>
+										<th>产品单价</th>
+										<th>产品版本号</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="">付款状况:</label>
+								<p class="modal_p_dingdan_mes text-primary" id="p_dingdan_pay"></p>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<div class="form-group">
+								<label for="">总金额:</label>
+								<p class="modal_p_dingdan_mes text-primary"
+									id="p_dingdan_all_money"></p>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<div class="form-group">
+								<label for="">运输方式:</label>
+								<p class="modal_p_dingdan_mes text-primary"
+									id="p_dingdan_traffic"></p>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<div class="form-group">
+								<label for="">发货日期:</label>
+								<p class="modal_p_dingdan_mes text-primary" id="p_dingdan_date"></p>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<div class="form-group">
+								<label for="">订单状态:</label>
+								<p class="modal_p_dingdan_mes text-primary" id="p_dingdan_state"></p>
+							</div>
+						</div>
+
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="">其他信息:</label>
+								<p class="modal_p_dingdan_mes text-primary" id="p_dingdan_mes"></p>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group" id="div_detail_dingdan_tip">
+								<label for="">注意事项:</label>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="">负责人:</label>
+								<p class="modal_p_dingdan_mes text-primary"
+									id="p_dingdan_charge"></p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 产品选择模态窗口 -->
+	<!-- Modal -->
+	<div class="modal fade bs-example-modal-lg" id="modal_select_product"
+		tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">选择产品</h4>
+				</div>
+				<div class="modal-body">
+					<table id="table_select_product"
+						class="table table-striped table-bordered" cellspacing="0"
+						width="100%">
+						<thead>
+							<tr>
+								<th>产品ID</th>
+								<th>销售型号</th>
+								<th>内部型号</th>
+								<th>产品库存</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<p id="p_select_member_warnmes"></p>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 版本号选择模态窗口 -->
+	<!-- Modal -->
+	<div class="modal fade "
+		id="modal_select_product_version" tabindex="-1" role="dialog"
+		aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog ">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">选择模块版本号</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="form-group col-md-6">
+							<label for="input_product_custom_version">临时版本</label>
+							<div class="input-group">
+								<input class="form-control" id="input_product_custom_version"
+									placeholder=""> <span class="input-group-addon"
+									id="btn_chose_custom_version">选择</span>
+							</div>
+						</div>
+						<div class="form-group col-md-6">
+							<label for="input_product_last_version">最后一次版本</label>
+							<div class="input-group">
+								<input class="form-control" id="input_product_last_version" disabled="true"
+									placeholder="无记录"> <span class="input-group-addon"
+									id="btn_chose_last_version">选择</span>
+							</div>
+						</div>
+					</div>
+					<hr>
+					<div class="row" id="div_list_version">
+					<div class="form-group col-md-6">
+							<label for="input_product_custom_version">自定义版本</label>
+							<div class="input-group">
+								<select class="form-control">
+									<option>1</option>
+									<option>2</option>
+									<option>3</option>
+								</select><span class="input-group-addon" id="btn_chose_common_version">选择</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<p id="p_select_member_warnmes"></p>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 负责人选择模态窗口 -->
+	<!-- Modal -->
+	<div class="modal fade bs-example-modal-lg" id="modal_select_member"
+		tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">选择负责人</h4>
+				</div>
+				<div class="modal-body">
+					<table id="table_select_member"
+						class="table table-striped table-bordered" cellspacing="0"
+						width="100%">
+						<thead>
+							<tr>
+								<th>姓名</th>
+								<th>用户名</th>
+								<th>邮箱账户</th>
+								<th>邮箱密码</th>
+								<th>权限</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<p id="p_select_member_warnmes"></p>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 开票人选择模态窗口 -->
+	<!-- Modal -->
+	<div class="modal fade bs-example-modal-lg" id="modal_select_tax"
+		tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">选择开票人</h4>
+				</div>
+				<div class="modal-body">
+					<table id="table_select_tax"
+						class="table table-striped table-bordered" cellspacing="0"
+						width="100%">
+						<thead>
+							<tr>
+								<th>姓名</th>
+								<th>用户名</th>
+								<th>邮箱账户</th>
+								<th>邮箱密码</th>
+								<th>权限</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<p id="p_select_tax_warnmes"></p>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 客户选择模态窗口 -->
+	<!-- Modal -->
+	<div class="modal fade bs-example-modal-lg" id="modal_select_custom"
+		tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">选择客户</h4>
+				</div>
+				<div class="modal-body">
+					<table id="table_select_custom"
+						class="table table-striped table-bordered" cellspacing="0"
+						width="100%">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>客户名称</th>
+								<th>客户地址</th>
+								<th>联系人</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 添加成员模态窗口 -->
+	<!-- Modal -->
+	<div class="modal fade" id="add_member" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">添加成员</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_member_user_name">姓名（必填）</label> <input type=""
+									class="form-control" id="add_member_user_name" placeholder="姓名">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_member_user_account">用户名（必填）</label> <input
+									type="" class="form-control" id="add_member_user_account"
+									placeholder="用户名">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_member_user_password">密码（必填）</label> <input
+									type="" class="form-control" id="add_member_user_password"
+									placeholder="密码">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_member_email_account">邮箱账户</label> <input
+									type="" class="form-control" id="add_member_email_account"
+									placeholder="邮箱账户">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_member_email_password">邮箱密码</label> <input
+									type="" class="form-control" id="add_member_email_password"
+									placeholder="邮箱密码">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_member_role">权限（必填）</label> <select
+									id="add_member_role" class="form-control">
+									<option value="0">负责人</option>
+									<option value="1">管理员</option>
+									<option value="2">开票人</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<p id="add_member_mes"></p>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="btn_add_member">添加成员</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 添加默认成员模态窗口 -->
+	<!-- Modal -->
+	<div class="modal fade" id="add_default_member" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">添加默认成员</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_default_member_user_name">姓名（必填）</label> <input
+									type="" class="form-control" id="add_default_member_user_name"
+									placeholder="姓名">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_default_member_email_account">邮箱账户（必填）</label> <input
+									type="" class="form-control"
+									id="add_default_member_email_account" placeholder="邮箱账户">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<p id="add_default_member_mes"></p>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary"
+						id="btn_add_default_member">添加默认成员</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 操作默认成员模态窗口 -->
+	<!-- Modal -->
+	<div class="modal fade" id="handle_default_member" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">操作默认人员</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="handle_default_member_user_name">姓名（必填）</label> <input
+									disabled="true" class="form-control"
+									id="handle_default_member_user_name" placeholder="姓名">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="handle_default_member_email_account">邮箱账户（必填）</label>
+								<input type="" class="form-control"
+									id="handle_default_member_email_account" placeholder="邮箱账户">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<p id="handle_default_member_mes"></p>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-danger"
+						id="btn_delete_default_member">删除默认人员</button>
+					<button type="button" class="btn btn-primary"
+						id="btn_modify_default_member">修改默认人员</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 操作成员模态窗口 -->
+	<!-- Modal -->
+	<div class="modal fade" id="handle_member" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">操作成员</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="handle_member_user_name">姓名（必填）</label> <input
+									class="form-control" id="handle_member_user_name"
+									placeholder="姓名">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="handle_member_user_account">用户名</label> <input
+									disabled="true" class="form-control"
+									id="handle_member_user_account" placeholder="用户名">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="handle_member_user_password">密码（必填）</label> <input
+									type="" class="form-control" id="handle_member_user_password"
+									placeholder="密码">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="handle_member_email_account">邮箱账户</label> <input
+									type="" class="form-control" id="handle_member_email_account"
+									placeholder="邮箱账户">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="handle_member_email_password">邮箱密码</label> <input
+									type="" class="form-control" id="handle_member_email_password"
+									placeholder="邮箱密码">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="handle_member_role">权限（必填）</label> <select
+									id="handle_member_role" class="form-control">
+									<option value="0">负责人</option>
+									<option value="1">管理员</option>
+									<option value="2">开票人</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<p id="handle_member_mes"></p>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-danger" id="btn_delete_member">删除成员</button>
+					<button type="button" class="btn btn-primary"
+						id="btn_modify_member">修改成员</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 添加客户模态窗口 -->
+	<!-- Modal -->
+	<div class="modal fade bs-example-modal-lg" id="add_custom"
+		tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">添加客户</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="add_custom_name">客户名称（必填）</label> <input type=""
+									class="form-control" id="add_custom_name" placeholder="客户名称">
+							</div>
+						</div>
+						<div class="col-md-8">
+							<div class="form-group">
+								<label for="add_custom_addr">客户地址（必填）</label> <input type=""
+									class="form-control" id="add_custom_addr" placeholder="客户地址">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<table id="table_add_custom_contacts"
+								class="table table-striped table-bordered" cellspacing="0"
+								width="100%">
+								<thead>
+									<tr>
+										<th>联系人</th>
+										<th>联系电话</th>
+										<th>职位</th>
+										<th>QQ</th>
+										<th><button type="button" class="btn btn-primary"
+												id="btn_add_contacts">+添加</button></th>
+									</tr>
+								</thead>
+								<tbody id="tbody_add_custom_contacts">
+									<tr>
+										<th><input class="form-control" placeholder="联系人"></th>
+										<th><input class="form-control" placeholder="联系电话"></th>
+										<th><input class="form-control" placeholder="职位"></th>
+										<th><input class="form-control" placeholder="QQ"></th>
+										<th><button class="btn btn-danger">删除</button></th>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="add_custom_mes">描述信息</label> <input type=""
+									class="form-control" id="add_custom_mes" placeholder="描述信息">
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<hr>
+							<h4>开票信息</h4>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_custom_mes">名称</label> <input
+									class="form-control" id="tax_name" placeholder="">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_custom_mes">税号</label> <input
+									class="form-control" id="tax_num" placeholder="">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="add_custom_mes">地址</label> <input
+									class="form-control" id="tax_addr" placeholder="">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_custom_mes">开户银行</label> <input
+									class="form-control" id="tax_bank" placeholder="">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_custom_mes">账号</label> <input
+									class="form-control" id="tax_account" placeholder="">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_custom_mes">电话</label> <input
+									class="form-control" id="tax_phone" placeholder="">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_custom_mes">传真</label> <input
+									class="form-control" id="tax_fax" placeholder="">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<p id="add_custom_warnmes"></p>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="btn_add_custom">添加客户</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 操作客户模态窗口 -->
+	<!-- Modal -->
+	<div class="modal fade bs-example-modal-lg" id="handle_custom"
+		tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">修改客户</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-8">
+							<div class="form-group">
+								<label for="handle_custom_name">客户名称（必填）</label> <input
+									class="form-control" id="handle_custom_name" placeholder="客户名称">
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="handle_custom_name">客户ID</label> <input
+									disabled="true" class="form-control" id="handle_custom_id"
+									placeholder="客户名称">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="handle_custom_addr">客户地址（必填）</label> <input type=""
+									class="form-control" id="handle_custom_addr" placeholder="客户地址">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<table id="table_handle_custom_contacts"
+								class="table table-striped table-bordered" cellspacing="0"
+								width="100%">
+								<thead>
+									<tr>
+										<th>联系人</th>
+										<th>联系电话</th>
+										<th>职位</th>
+										<th>QQ</th>
+										<th><button type="button" class="btn btn-primary"
+												id="btn_handle_contacts">+添加</button></th>
+									</tr>
+								</thead>
+								<tbody id="tbody_handle_custom_contacts">
+								</tbody>
+							</table>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="handle_custom_mes">描述信息</label> <input type=""
+									class="form-control" id="handle_custom_mes" placeholder="描述信息">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<hr>
+							<h4>开票信息</h4>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_custom_mes">名称</label> <input
+									class="form-control" id="m_tax_name" placeholder="">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_custom_mes">税号</label> <input
+									class="form-control" id="m_tax_num" placeholder="">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<label for="add_custom_mes">地址</label> <input
+									class="form-control" id="m_tax_addr" placeholder="">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_custom_mes">开户银行</label> <input
+									class="form-control" id="m_tax_bank" placeholder="">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_custom_mes">账号</label> <input
+									class="form-control" id="m_tax_account" placeholder="">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_custom_mes">电话</label> <input
+									class="form-control" id="m_tax_phone" placeholder="">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_custom_mes">传真</label> <input
+									class="form-control" id="m_tax_fax" placeholder="">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<p id="handle_custom_warnmes"></p>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-danger" id="btn_delete_custom">删除客户</button>
+					<button type="button" class="btn btn-primary"
+						id="btn_modify_custom">修改客户</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 添加产品模态窗口 -->
+	<!-- Modal -->
+	<div class="modal fade" id="add_product" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">添加产品</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_product_sale_module">销售型号</label> <input
+									class="form-control" id="add_product_sale_module"
+									placeholder="">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_product_inner_module">内部型号</label> <input
+									class="form-control" id="add_product_inner_module"
+									placeholder="">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_product_count">产品库存</label> <input
+									class="form-control" id="add_product_count" placeholder="">
+							</div>
+						</div>
+					</div>
+					<hr>
+					<table id="table_add_product_version"
+						class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th style="width: 40%"><div class="input-group">
+										<input class="form-control" id="input_add_version_name"
+											placeholder="请输入版本名称"> <span
+											class="input-group-addon" id="btn_add_version_name">+添加</span>
+									</div></th>
+								<th style="width: 50%"><input class="form-control"
+									id="input_add_version_num" placeholder="请输入版本号"></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody id="tbody_add_product_version">
+							<tr>
+								<td>标准版本</td>
+								<td><button type="button"
+										class="btn btn-primary top_handle" id="btn_add_version_num">+</button>
+								</td>
+								<td><button type="button" class="btn btn-danger top_handle"
+										id="btn_add_delete_tr">删除</button></td>
+							</tr>
+							<tr>
+								<td>DTU</td>
+								<td><button type="button"
+										class="btn btn-primary top_handle" id="btn_add_version_num">+</button></td>
+								<td><button type="button" class="btn btn-danger top_handle"
+										id="btn_add_delete_tr">删除</button></td>
+							</tr>
+							<tr>
+								<td>MQTT</td>
+								<td><button type="button"
+										class="btn btn-primary top_handle" id="btn_add_version_num">+</button></td>
+								<td><button type="button" class="btn btn-danger top_handle"
+										id="btn_add_delete_tr">删除</button></td>
+							</tr>
+							<tr>
+								<td>自定义版本</td>
+								<td><button type="button"
+										class="btn btn-primary top_handle" id="btn_add_version_num">+</button></td>
+								<td><button type="button" class="btn btn-danger top_handle"
+										id="btn_add_delete_tr">删除</button></td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+				<div class="modal-footer">
+					<p id="add_product_warnmes"></p>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="btn_add_product">添加模块</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 操作产品模态窗口 -->
+	<!-- Modal -->
+	<div class="modal fade" id="handle_product" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">操作产品</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="handle_product_module_id">模块ID</label> <input
+									disabled="true" class="form-control"
+									id="handle_product_module_id" placeholder="">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_product_sale_module">销售型号</label> <input
+									class="form-control" id="handle_product_sale_module"
+									placeholder="">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="add_product_inner_module">内部型号</label> <input
+									class="form-control" id="handle_product_inner_module"
+									placeholder="">
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label for="handle_product_count">产品库存</label> <input
+									class="form-control" id="handle_product_count" placeholder="">
+							</div>
+						</div>
+
+					</div>
+					<hr>
+					<table id="table_modify_product_version"
+						class="table table-striped table-bordered">
+						<thead>
+							<tr>
+								<th style="width: 40%"><div class="input-group">
+										<input class="form-control" id="input_modify_version_name"
+											placeholder="请输入版本名称"> <span
+											class="input-group-addon" id="btn_modify_version_name">+添加</span>
+									</div></th>
+								<th style="width: 50%"><input class="form-control"
+									id="input_modify_version_num" placeholder="请输入版本号"></th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody id="tbody_modify_product_version">
+
+						</tbody>
+					</table>
+				</div>
+				<div class="modal-footer">
+					<p id="handle_product_warnmes"></p>
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-danger"
+						id="btn_delete_product">删除模块</button>
+					<button type="button" class="btn btn-primary"
+						id="btn_modify_product">修改模块</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 是否删除模态框 -->
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+		id="modal_delete_alert" aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4>
+						是否删除订单【<span style="color: blue" id="span_delete_alert_dingdan"></span>】
+					</h4>
+				</div>
+
+				<div class="modal-footer">
+					<p id="p_delete_alert_warnmes"></p>
+					<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-danger"
+						id="btn_modal_delete_alert_dingdan">删除订单</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- 信息提示模态框 -->
+	<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+		id="modal_show_mes_alert" aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<h4 id="h4_show_mes"></h4>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bootstrap core JavaScript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="js/jquery-1.11.3.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+	<script src="js/ie10-viewport-bug-workaround.js"></script>
+	<!-- datatables -->
+	<script src="js/jquery.dataTables.min.js"></script>
+	<script src="js/dataTables.bootstrap.min.js"></script>
+	<script src="js/dataTables.tableTools.min.js"></script>
+	<!-- custom -->
+	<script src="js/custom/validate.js"></script>
+	<script src="js/custom/topAll.js"></script>
+	<script src="js/custom/topMember.js"></script>
+	<script src="js/custom/topProduct.js"></script>
+	<script src="js/custom/topCustom.js"></script>
+	<script src="js/custom/topDingdan.js"></script>
+	<script src="js/custom/topDuizhang.js"></script>
+</body>
+</html>
